@@ -63,13 +63,14 @@ pip3 $IN --upgrade setuptools
 pip3 $IN $ha
 pip3 $IN tail status Invalid method valid result distribution matching >> install.log 2>&1
 ##################判断是否安装成功
-#if [ ! -f $HABIN ];then
-#echo "安装失败，请检查网络重试"
-#echo "退出安装"
-#exit 5
-#else
-#echo "安装成功"
-#fi
+if [ -f $HABIN ] 
+then 
+     echo "安装成功"
+else
+     echo "安装失败，退出程序，请重试"
+     exit 5
+fi
+
 
 ##############
 echo "正在为你生成快速切换虚拟环境启动命令"
