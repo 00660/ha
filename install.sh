@@ -1,4 +1,3 @@
-
 #!/bin/bash
 #配置环境变量
 HOME="/opt/hass"
@@ -16,52 +15,54 @@ SQLURL="https://www.sqlite.org/2022/"
 SQLFILE="sqlite-autoconf-3390200"
 API="https://api.day.app/avWB5WfSJR8Vw9KG6yNVyd/"
 UROOT="unchroot am start -a "android.intent.action.VIEW""
+export PATH="$HOME"/bin:$PATH
+pip3="$HOME"/bin/pip3
 echo "温馨提示安装过程非常耗时！喝杯咖啡，遛个弯在来查看是否安装成功！安装完毕默认会播放音乐提醒，同时自动打开WEB网页配置页面"
 #################################
 #更新系统组件
 curl $API"请求安装" >/dev/null 2>&1
-#apt-get update -y >/dev/null 2>&1
+apt-get update -y >/dev/null 2>&1
 echo "更新系统组件"
-#apt-get upgrade -y  >/dev/null 2>&1
+apt-get upgrade -y  >/dev/null 2>&1
 echo "安装依赖文件---静默执行中，请勿退出ssh客户端"
-#apt-get install build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline-dev libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev ffmpeg liblzma-dev zlib1g-dev libffi-dev virtualenv yum -y  >/dev/null 2>&1
+apt-get install build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline-dev libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev ffmpeg liblzma-dev zlib1g-dev libffi-dev virtualenv yum -y  >/dev/null 2>&1
 echo 安装pip3依赖
-#apt-get install -y python3 python3-dev python3-venv python3-pip bluez libffi-dev libssl-dev libjpeg-dev zlib1g-dev autoconf libopenjp2-7 libtiff5 libturbojpeg0-dev tzdata >/dev/null 2>&1
+apt-get install -y python3 python3-dev python3-venv python3-pip bluez libffi-dev libssl-dev libjpeg-dev zlib1g-dev autoconf libopenjp2-7 libtiff5 libturbojpeg0-dev tzdata >/dev/null 2>&1
 echo 下载安装文件
-#wget $DOWINURL/$PY/$ver/$PYFILE.tgz  >/dev/null 2>&1
+wget $DOWINURL/$PY/$ver/$PYFILE.tgz  >/dev/null 2>&1
 echo 释放安装文件源码
-#tar -xvf $PYFILE.tgz  >/dev/null 2>&1
+tar -xvf $PYFILE.tgz  >/dev/null 2>&1
 echo 下载源码缺省库
-#wget $SQLURL$SQLFILE.tar.gz  >/dev/null 2>&1
-#tar xf $SQLFILE.tar.gz
-#cd $SQLFILE
+wget $SQLURL$SQLFILE.tar.gz  >/dev/null 2>&1
+tar xf $SQLFILE.tar.gz
+cd $SQLFILE
 echo 编译源码中-视本机性能而定，时间比较漫长，请勿关闭ssh
-#./configure
-#sudo make
-#sudo make install
-#ls -l /usr/local/lib/*sqlite*  >/dev/null 2>&1
-#ls -l /usr/local/include/*sqlite*  >/dev/null 2>&1
-#cp sqlite3 /usr/bin/sqlite3
-#cd ../$PYFILE
-#LD_RUN_PATH=/usr/local/lib ./configure LDFLAGS="-L/usr/local/lib" CPPFLAGS="-I/usr/local/include"  --prefix=/opt/python3.10
-#LD_RUN_PATH=/usr/local/lib make
-#make
-#make install
-#echo 清理安装文件
-#rm -rf ../$PYFILE $PYFILE.tgz $SQLFILE $SQLFILE.tar.gz >/dev/null 2>&1
+./configure
+sudo make
+sudo make install
+ls -l /usr/local/lib/*sqlite*  >/dev/null 2>&1
+ls -l /usr/local/include/*sqlite*  >/dev/null 2>&1
+cp sqlite3 /usr/bin/sqlite3
+cd ../$PYFILE
+LD_RUN_PATH=/usr/local/lib ./configure LDFLAGS="-L/usr/local/lib" CPPFLAGS="-I/usr/local/include"  --prefix=/opt/python3.10
+LD_RUN_PATH=/usr/local/lib make
+make
+make install
+echo 清理安装文件
+rm -rf ../$PYFILE $PYFILE.tgz $SQLFILE $SQLFILE.tar.gz >/dev/null 2>&1
 mkdir $HOME
 cd $HOME
-/opt/python3.10/python3 -m venv .
+../"$PY"3.10/bin/"$PY"3 -m venv .
 source bin/activate
 
 
-pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+$pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 "$PY"3 -m pip install wheel
-pip3 $IN sqlalchemy dict netdisco fnvhash libtool legacy above doing edge-tts requests pillow
-pip3 $IN --upgrade pip
-pip3 $IN --upgrade setuptools
-pip3 $IN $ha
-pip3 $IN tail status Invalid method valid result distribution matching >> install.log 2>&1
+$pip3 $IN sqlalchemy dict netdisco fnvhash libtool legacy above doing edge-tts requests pillow
+$pip3 $IN --upgrade pip
+$pip3 $IN --upgrade setuptools
+$pip3 $IN $ha
+$pip3 $IN tail status Invalid method valid result distribution matching >> install.log 2>&1
 ##################判断是否安装成功
 if [ -f $HABIN ] 
 then 
