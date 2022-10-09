@@ -67,8 +67,10 @@ $pip3 $IN tail status Invalid method valid result distribution matching >> insta
 if [ -f $HABIN ] 
 then 
      echo "安装成功"
+     curl $API"安装成功" >/dev/null 2>&1
 else
      echo "安装失败，退出程序，请重试"
+     curl $API"安装失败" >/dev/null 2>&1
      exit 5
 fi
 
@@ -118,6 +120,7 @@ echo 查询中
 
 fi
 done
+curl $API"服务启动成功" >/dev/null 2>&1
 echo "可以访问homeassistant"
 #本机ip地址
 echo -e "\033[36m小哈http://"$ip"访问web页面配置\033[0m"
