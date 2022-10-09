@@ -15,8 +15,7 @@ SQLURL="https://www.sqlite.org/2022/"
 SQLFILE="sqlite-autoconf-3390200"
 API="https://api.day.app/avWB5WfSJR8Vw9KG6yNVyd/"
 UROOT="unchroot am start -a "android.intent.action.VIEW""
-export PATH="$HOME"/bin:$PATH
-pip3="$HOME"/bin/pip3
+#export PATH="$HOME"/bin:$PATH
 echo "温馨提示安装过程非常耗时！喝杯咖啡，遛个弯在来查看是否安装成功！安装完毕默认会播放音乐提醒，同时自动打开WEB网页配置页面"
 #################################
 #更新系统组件
@@ -49,22 +48,27 @@ LD_RUN_PATH=/usr/local/lib make
 make
 make install
 echo 清理安装文件
+mv /usr/bin/python3 /usr/bin/python3.bak >/dev/null 2>&1
+mv /usr/bin/pip3 /usr/bin/pip3.bak >/dev/null 2>&1
+mv /usr/bin/pip /usr/bin/pip.bak >/dev/null 2>&1
+
+ln -s /opt/python3.10/bin/python3 /usr/bin/python3 >/dev/null 2>&1
+ln -s /opt/python3.10/bin/pip3 /usr/bin/pip3 >/dev/null 2>&1
+ln -s /opt/python3.10/bin/pip /usr/bin/pip >/dev/null 2>&1
+
 rm -rf ../$PYFILE $PYFILE.tgz $SQLFILE $SQLFILE.tar.gz >/dev/null 2>&1
-mkdir $HOME
-cd $HOME
-../"$PY"3.10/bin/"$PY"3 -m venv .
-source bin/activate
-
-
-$pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+#mkdir $HOME
+#cd $HOME
+#../"$PY"3.10/bin/"$PY"3 -m venv .
+pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 "$PY"3 -m pip install wheel
-$pip3 $IN sqlalchemy dict netdisco fnvhash libtool legacy above doing edge-tts requests pillow
-$pip3 $IN --upgrade pip
-$pip3 $IN --upgrade setuptools
-$pip3 $IN $ha
-$pip3 $IN tail status Invalid method valid result distribution matching >> install.log 2>&1
+pip3 $IN sqlalchemy dict netdisco fnvhash libtool legacy above doing edge-tts requests pillow
+pip3 $IN --upgrade pip
+pip3 $IN --upgrade setuptools
+pip3 $IN homeassistant
+pip3 $IN tail status Invalid method valid result distribution matching >> install.log 2>&1
 ##################判断是否安装成功
-if [ -f $HABIN ] 
+if [ -f /usr/bin/hass ] 
 then 
      echo "安装成功"
      curl $API"安装成功" >/dev/null 2>&1
@@ -78,14 +82,14 @@ fi
 ##############
 echo "正在为你生成快速切换虚拟环境启动命令"
 echo " echo 请稍后正在为你启动服务中loding" >> $ht
-echo "nohup $HOME/bin/hass >/dev/null 2>&1 &" >> $ht
+echo "nohup hass >/dev/null 2>&1 &" >> $ht
 echo "echo 服务常驻启动成功" >> $ht
 chmod 777 $ht
 #生成更新homeassistant文件
 
 echo "cd $HOME/bin/  >/dev/null 2>&1
 #进入安装目录
-source acti*  >/dev/null 2>&1
+#source acti*  >/dev/null 2>&1
 #切换到虚拟环境
 echo "正在准备检测更新！"
 sleep 15
@@ -106,20 +110,22 @@ ht
 #############
 ip=$( hostname -I|cut -c 1-11 )
 ip=$ip":8123"
-while true
-do
+#while true
+#do
 
-ret_code=`curl -I -s --connect-timeout 1 $ip -w %{http_code} | tail -n1`
+#ret_code=`curl -I -s --connect-timeout 1 $ip -w %{http_code} | tail -n1`
 
-if [ "x$ret_code" = "x405" ]; then
+#if [ "x$ret_code" = "x405" ]; then
 
-break
-else
-echo "homeassistant服务不在线"
-echo 查询中
+#break
+#else
+#echo "homeassistant服务不在线"
+#echo 查询中
 
-fi
-done
+#fi
+#done
+echo "后台处理服务中稍等大约5分钟"
+sleep 300
 curl $API"服务启动成功" >/dev/null 2>&1
 echo "可以访问homeassistant"
 #本机ip地址
