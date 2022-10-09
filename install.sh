@@ -49,16 +49,23 @@ echo 下载源码缺省库
 #make install
 #echo 清理安装文件
 #rm -rf ../$PYFILE $PYFILE.tgz $SQLFILE $SQLFILE.tar.gz >/dev/null 2>&1
+sudo cp /usr/bin/python /usr/bin/python_bak  >/dev/null 2>&1
+sudo rm /usr/bin/python >/dev/null 2>&1
+sudo ln -s /usr/local/bin/python3.10 /usr/bin/python >/dev/null 2>&1
+ln -s /usr/local/python-3.10/bin/pip3.10 /usr/bin/pip3
+
 #mkdir $HOME
 #cd $HOME
 #../"$PY"3.10/bin/"$PY"3 -m venv .
-pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+wget https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py 
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 "$PY"3 -m pip install wheel
-pip3 $IN sqlalchemy dict netdisco fnvhash libtool legacy above doing edge-tts requests pillow
-pip3 $IN --upgrade pip
-pip3 $IN --upgrade setuptools
-pip3 $IN homeassistant
-pip3 $IN tail status Invalid method valid result distribution matching >> install.log 2>&1
+pip $IN sqlalchemy dict netdisco fnvhash libtool legacy above doing edge-tts requests pillow
+pip $IN --upgrade pip
+pip $IN --upgrade setuptools
+pip $IN homeassistant
+pip $IN tail status Invalid method valid result distribution matching >> install.log 2>&1
 ##################判断是否安装成功
 if [ -f /usr/bin/hass ] 
 then 
