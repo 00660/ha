@@ -43,19 +43,11 @@ ls -l /usr/local/lib/*sqlite*  >/dev/null 2>&1
 ls -l /usr/local/include/*sqlite*  >/dev/null 2>&1
 cp sqlite3 /usr/bin/sqlite3
 cd ../$PYFILE
-LD_RUN_PATH=/usr/local/lib ./configure LDFLAGS="-L/usr/local/lib" CPPFLAGS="-I/usr/local/include"  --prefix=/opt/python3.10
+LD_RUN_PATH=/usr/local/lib ./configure LDFLAGS="-L/usr/local/lib" CPPFLAGS="-I/usr/local/include"
 LD_RUN_PATH=/usr/local/lib make
 make
 make install
 echo 清理安装文件
-mv /usr/bin/python3 /usr/bin/python3.bak >/dev/null 2>&1
-mv /usr/bin/pip3 /usr/bin/pip3.bak >/dev/null 2>&1
-mv /usr/bin/pip /usr/bin/pip.bak >/dev/null 2>&1
-
-ln -s /opt/python3.10/bin/python3 /usr/bin/python3 >/dev/null 2>&1
-ln -s /opt/python3.10/bin/pip3 /usr/bin/pip3 >/dev/null 2>&1
-ln -s /opt/python3.10/bin/pip /usr/bin/pip >/dev/null 2>&1
-
 rm -rf ../$PYFILE $PYFILE.tgz $SQLFILE $SQLFILE.tar.gz >/dev/null 2>&1
 #mkdir $HOME
 #cd $HOME
