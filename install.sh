@@ -20,54 +20,61 @@ echo "温馨提示安装过程非常耗时！喝杯咖啡，遛个弯在来查�
 #################################
 #更新系统组件
 curl $API"请求安装" >/dev/null 2>&1
-#apt-get update -y >/dev/null 2>&1
+apt-get update -y >/dev/null 2>&1
 echo "更新系统组件"
-#apt-get upgrade -y  >/dev/null 2>&1
+apt-get upgrade -y  >/dev/null 2>&1
 echo "安装依赖文件---静默执行中，请勿退出ssh客户端"
-#apt-get install build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline-dev libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev ffmpeg liblzma-dev zlib1g-dev libffi-dev virtualenv yum -y  >/dev/null 2>&1
+apt-get install build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline-dev libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev ffmpeg liblzma-dev zlib1g-dev libffi-dev virtualenv yum -y  >/dev/null 2>&1
 echo 安装pip3依赖
-#apt-get install -y python3 python3-dev python3-venv python3-pip bluez libffi-dev libssl-dev libjpeg-dev zlib1g-dev autoconf libopenjp2-7 libtiff5 libturbojpeg0-dev tzdata >/dev/null 2>&1
+apt-get install -y python3 python3-dev python3-venv python3-pip bluez libffi-dev libssl-dev libjpeg-dev zlib1g-dev autoconf libopenjp2-7 libtiff5 libturbojpeg0-dev tzdata >/dev/null 2>&1
 echo 下载安装文件
-#wget $DOWINURL/$PY/$ver/$PYFILE.tgz  >/dev/null 2>&1
+wget $DOWINURL/$PY/$ver/$PYFILE.tgz  >/dev/null 2>&1
 echo 释放安装文件源码
-#tar -xvf $PYFILE.tgz  >/dev/null 2>&1
+tar xvf $PYFILE.tgz  >/dev/null 2>&1
 echo 下载源码缺省库
-#wget $SQLURL$SQLFILE.tar.gz  >/dev/null 2>&1
-#tar xf $SQLFILE.tar.gz
-#cd $SQLFILE
-#echo 编译源码中-视本机性能而定，时间比较漫长，请勿关闭ssh
-#./configure
-#sudo make
-#sudo make install
-#ls -l /usr/local/lib/*sqlite*  >/dev/null 2>&1
-#ls -l /usr/local/include/*sqlite*  >/dev/null 2>&1
-#cp sqlite3 /usr/bin/sqlite3
-#cd ../$PYFILE
-#LD_RUN_PATH=/usr/local/lib ./configure LDFLAGS="-L/usr/local/lib" CPPFLAGS="-I/usr/local/include"
-#LD_RUN_PATH=/usr/local/lib make
-#make
-#make install
-#echo 清理安装文件
-#rm -rf ../$PYFILE $PYFILE.tgz $SQLFILE $SQLFILE.tar.gz >/dev/null 2>&1
+wget $SQLURL$SQLFILE.tar.gz  >/dev/null 2>&1
+tar xvf sqlite-autoconf-3390200.tar.gz
+cd $SQLFILE
+echo 编译源码中-视本机性能而定，时间比较漫长，请勿关闭ssh
+./configure
+sudo make
+sudo make install
+ls -l /usr/local/lib/*sqlite*  >/dev/null 2>&1
+ls -l /usr/local/include/*sqlite*  >/dev/null 2>&1
+cp sqlite3 /usr/bin/sqlite3
+cd ../$PYFILE
+
+LD_RUN_PATH=/usr/local/lib ./configure LDFLAGS="-L/usr/local/lib" CPPFLAGS="-I/usr/local/include"
+LD_RUN_PATH=/usr/local/lib make
+make
+make install
+echo 清理安装文件
+rm -r ~/* >/dev/null 2>&1
+rm -rf ../$PYFILE $PYFILE.tgz $SQLFILE $SQLFILE.tar.gz >/dev/null 2>&1
 sudo cp /usr/bin/python /usr/bin/python_bak  >/dev/null 2>&1
 sudo rm /usr/bin/python >/dev/null 2>&1
+sudo rm /usr/bin/python3 >/dev/null 2>&1
+sudo rm /usr/bin/pip3 >/dev/null 2>&1
+sudo rm /usr/bin/pip3.10 >/dev/null 2>&1
 sudo ln -s /usr/local/bin/python3.10 /usr/bin/python >/dev/null 2>&1
-ln -s /usr/local/python-3.10/bin/pip3.10 /usr/bin/pip3
 
+ln -s /usr/local/python3.10/bin/python3 /usr/bin/python3
+ln -s /usr/local/python-3.10/bin/pip3 /usr/bin/pip3
+ln -s /usr/local/python-3.10/bin/pip3.10 /usr/bin/pip3.10
 #mkdir $HOME
 #cd $HOME
 #../"$PY"3.10/bin/"$PY"3 -m venv .
-wget https://bootstrap.pypa.io/get-pip.py
-python3 get-pip.py 
+curl https://bootstrap.pypa.io/get-pip.py | python3
+alias pip="pip3.10"
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-"$PY"3 -m pip install wheel
+python3 -m pip install wheel
 pip $IN sqlalchemy dict netdisco fnvhash libtool legacy above doing edge-tts requests pillow
 pip $IN --upgrade pip
 pip $IN --upgrade setuptools
 pip $IN homeassistant
 pip $IN tail status Invalid method valid result distribution matching >> install.log 2>&1
 ##################判断是否安装成功
-if [ -f /usr/bin/hass ] 
+if [ -f /usr/local/bin/hass ] 
 then 
      echo "安装成功"
      curl $API"安装成功" >/dev/null 2>&1
@@ -103,26 +110,25 @@ ht
 #重启homeassistant服务
 echo "服务启动成功"" >> $update
 chmod 777 $update
-deactivate
 #start homeassistant
 ht
 #############
-ip=$( hostname -I|cut -c 1-11 )
+ip=$( hostname -I|cut -c 1-14 )
 ip=$ip":8123"
-#while true
-#do
+while true
+do
 
-#ret_code=`curl -I -s --connect-timeout 1 $ip -w %{http_code} | tail -n1`
+ret_code=`curl -I -s --connect-timeout 1 $ip -w %{http_code} | tail -n1`
 
-#if [ "x$ret_code" = "x405" ]; then
+if [ "x$ret_code" = "x405" ]; then
 
-#break
-#else
-#echo "homeassistant服务不在线"
-#echo 查询中
+break
+else
+echo "homeassistant服务不在线"
+echo 查询中
 
-#fi
-#done
+fi
+done
 echo "后台处理服务中稍等大约5分钟"
 sleep 300
 curl $API"服务启动成功" >/dev/null 2>&1
