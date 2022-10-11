@@ -19,6 +19,7 @@ UROOT="unchroot am start -a "android.intent.action.VIEW""
 echo "温馨提示安装过程非常耗时！喝杯咖啡，遛个弯在来查看是否安装成功！安装完毕默认会播放音乐提醒，同时自动打开WEB网页配置页面"
 #################################
 #更新系统组件
+apt install curl -y
 curl $API"请求安装" >/dev/null 2>&1
 apt-get update -y >/dev/null 2>&1
 echo "更新系统组件"
